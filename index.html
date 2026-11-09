@@ -1461,13 +1461,14 @@ function pick(clientX, clientY) {
     let tmax = Infinity;
     let axis = -1;
     let sign = 1;
+    let hit = true;
 
     for (let i = 0; i < 3; i++) {
       const oi = o[i];
       const di = d[i];
       if (Math.abs(di) < 1e-9) {
         if (Math.abs(oi) > HIT_HALF) {
-          tmin = Infinity;
+          hit = false;
           break;
         }
         continue;
@@ -1483,12 +1484,12 @@ function pick(clientX, clientY) {
       }
       if (tFar < tmax) tmax = tFar;
       if (tmin > tmax) {
-        tmin = Infinity;
+        hit = false;
         break;
       }
     }
 
-    if (axis >= 0 && tmin > 0.05 && (!best || tmin < best.t)) {
+    if (hit && axis >= 0 && tmin > 0.05 && (!best || tmin < best.t)) {
       best = { t: tmin, cubie: c, axis, sign };
     }
   }
