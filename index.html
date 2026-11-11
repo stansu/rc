@@ -914,6 +914,56 @@ if (!ctx) {
   throw new Error("Canvas 2D is not available");
 }
 
+/* ---------- analytics (optional) ---------- */
+
+// Paste your GoatCounter endpoint here to enable analytics, e.g.
+// "https://stansu-rc.goatcounter.com/count". Leave it empty to send nothing.
+const ANALYTICS_ENDPOINT = "";
+
+const ANALYTICS_EVENTS = {
+  played: "開始遊玩",
+  scramble: "打亂",
+  tutorial: "開啟教學",
+  "solve-tab": "跟著解",
+  solved: "完成復原",
+};
+
+const analyticsQueue = [];
+
+let playedTracked = false;
+
+function trackPlayed() {
+  if (playedTracked) return;
+  playedTracked = true;
+  trackEvent("played");
+}
+
+function trackEvent(name) {
+  if (!ANALYTICS_ENDPOINT) return;
+
+  const gc = window.goatcounter;
+  if (gc && typeof gc.count === "function") {
+    gc.count({ path: name, title: ANALYTICS_EVENTS[name] || name, event: true });
+  } else if (analyticsQueue.length < 20) {
+    analyticsQueue.push(name);
+  }
+}
+
+function loadAnalytics() {
+  if (!ANALYTICS_ENDPOINT) return;
+
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = "https://gc.zgo.at/count.js";
+  s.setAttribute("data-goatcounter", ANALYTICS_ENDPOINT);
+  s.addEventListener("load", () => {
+    while (analyticsQueue.length) trackEvent(analyticsQueue.shift());
+  });
+  document.head.appendChild(s);
+}
+
+loadAnalytics();
+
 /* ---------- camera ---------- */
 
 const HOME_VIEW = { theta: 0.72, phi: 1.02, dolly: 1 };
@@ -1167,6 +1217,7 @@ function finishTurn(turn) {
     userMoves++;
     movesEl.textContent = String(userMoves);
     startTimer();
+    trackPlayed();
   }
   if (mv.onDone) mv.onDone();
 
@@ -1257,6 +1308,7 @@ let toastTimer = 0;
 
 function celebrate() {
   stopTimer();
+  trackEvent("solved");
   const time = formatTime(timerFrozen);
   toastText.textContent = `完成！ ${userMoves} 步 · ${time}`;
   toastEl.classList.add("on");
@@ -1326,6 +1378,7 @@ function doScramble() {
   busy = true;
   hideToast();
   resetTimer();
+  trackEvent("scramble");
 
   if (!isSolved()) snapToSolved();
   history.length = 0;
@@ -2124,6 +2177,7 @@ function tutGo(n) {
 }
 
 function tutOpen() {
+  trackEvent("tutorial");
   stageEl.classList.add("tut-open");
   tutOpenState = true;
   tutGo(tutStep);
@@ -2282,7 +2336,10 @@ tutBody.addEventListener("click", (e) => {
 });
 
 tabLearn.addEventListener("click", () => setTutMode("learn"));
-tabSolve.addEventListener("click", () => setTutMode("solve"));
+tabSolve.addEventListener("click", () => {
+  trackEvent("solve-tab");
+  setTutMode("solve");
+});
 tutDo.addEventListener("click", playSolveStep);
 tutAll.addEventListener("click", playSolveAll);
 

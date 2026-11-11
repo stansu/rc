@@ -69,6 +69,28 @@ xdg-open index.html   # macOS 可用 open index.html
 
 這個 repo 已經部署在 <https://stansu.github.io/rc/>。
 
+## 流量統計（選用）
+
+原始碼已接好 [GoatCounter](https://www.goatcounter.com/)：無 cookie、不蒐集個資，只用來知道有多少人開過頁面、多少人真的開始玩。
+
+目前 `index.html` 裡的 `ANALYTICS_ENDPOINT` 是空字串，**預設不啟用，也不會發出任何第三方請求**。要啟用：
+
+1. 到 [goatcounter.com](https://www.goatcounter.com/) 註冊，建立一個 site（例如 `stansu-rc`）。
+2. 把 `index.html` 裡的 `ANALYTICS_ENDPOINT` 改成 `"https://stansu-rc.goatcounter.com/count"`。
+3. 推上 GitHub，之後到 `https://stansu-rc.goatcounter.com/` 看 dashboard。
+
+會記錄的遊玩事件（同一次瀏覽只算一次 `played`）：
+
+| 事件 | 時機 |
+| --- | --- |
+| `played` | 第一次實際轉動方塊 |
+| `scramble` | 按下打亂 |
+| `tutorial` | 開啟教學 |
+| `solve-tab` | 切到「跟著解」 |
+| `solved` | 完成復原 |
+
+廣告封鎖器會擋掉一部分請求，所以數字看趨勢即可，不會是精確人次。
+
 ## 技術筆記
 
 **渲染** — 每個方塊用 3×3 整數旋轉矩陣記錄姿態（轉動永遠是 90° 的倍數，所以不會累積誤差）。畫的時候把 26 個小方塊的 6 個面投影到螢幕，背面剔除後依深度排序、由遠而近填色；貼紙是圓角矩形的多邊形，跟著同一個投影走，所以透視是正確的。
