@@ -198,6 +198,83 @@ h1 {
 
 .hint.gone { opacity: 0; }
 
+/* viewport HUD: visitor count + leaderboard */
+
+.hud {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.hud-pill,
+.hud-btn { pointer-events: auto; }
+
+.hud-pill,
+.hud-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 9px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(9, 14, 22, 0.58);
+  color: #8b9bb1;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.hud-pill b {
+  font-weight: 600;
+  color: #cfdcec;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-btn {
+  cursor: pointer;
+  color: #b9c7d9;
+  transition: background 0.16s, border-color 0.16s, color 0.16s;
+}
+
+.hud-btn:hover {
+  color: #d9fff8;
+  border-color: rgba(94, 234, 212, 0.3);
+  background: rgba(94, 234, 212, 0.1);
+}
+
+.hud-btn:active { transform: scale(0.96); }
+.hud-btn:focus-visible { outline: 2px solid rgba(94, 234, 212, 0.65); outline-offset: 2px; }
+
+.hud-pill svg,
+.hud-btn svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+
+@media (max-width: 380px) {
+  .hud { top: 8px; right: 9px; gap: 5px; }
+  .hud-pill, .hud-btn { height: 26px; padding: 0 8px; }
+  .hud-btn span { display: none; }
+}
+
+
 /* solved flash */
 
 .flash {
@@ -226,7 +303,7 @@ h1 {
 .toast {
   position: absolute;
   left: 50%;
-  top: 9%;
+  top: 14%;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -676,6 +753,136 @@ body.no-canvas .stage { display: none; }
 .alg code.big { font-size: 15px; letter-spacing: 0.12em; }
 
 .tut-foot.two { justify-content: space-between; }
+
+/* ---------- leaderboard ---------- */
+
+.board-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 2px 0 7px;
+}
+
+.board-title {
+  font-size: 15px;
+  font-weight: 650;
+  color: #f0f5fd;
+}
+
+.board-sorts {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.board-sorts button {
+  appearance: none;
+  padding: 4px 9px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #7f8ea4;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.16s, background 0.16s;
+}
+
+.board-sorts button.on {
+  color: #cbfff5;
+  background: rgba(94, 234, 212, 0.16);
+}
+
+.board-sub {
+  margin: 0 0 9px;
+  font-size: 10.5px;
+  color: #6f7f95;
+}
+
+.board-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.board-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.board-row:last-child { border-bottom: 0; }
+
+.board-rank {
+  width: 18px;
+  flex: none;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  color: #6f7f95;
+  text-align: right;
+}
+
+.board-row:nth-child(1) .board-rank { color: #f5cf46; }
+.board-row:nth-child(2) .board-rank { color: #c8d3e4; }
+.board-row:nth-child(3) .board-rank { color: #d99a6c; }
+
+.board-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.board-main b {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f2f6fd;
+  font-variant-numeric: tabular-nums;
+}
+
+.board-main span {
+  font-size: 10.5px;
+  color: #7f8ea4;
+}
+
+.board-date {
+  flex: none;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  color: #63738a;
+  white-space: nowrap;
+}
+
+.board-empty {
+  padding: 20px 8px 12px;
+  text-align: center;
+  color: #8b9bb1;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.board-empty p { margin: 0 0 4px; }
+
+.board-empty .btn {
+  margin-top: 12px;
+  height: 34px;
+  padding: 0 14px;
+}
+
+@media (max-width: 380px) {
+  .tut-head { gap: 7px; padding-left: 12px; padding-right: 10px; }
+  .tut-tab { padding: 5px 7px; font-size: 11px; }
+  .tut-dots { gap: 4px; }
+}
+
 </style>
 </head>
 <body>
@@ -704,6 +911,16 @@ body.no-canvas .stage { display: none; }
     <div class="flash" id="flash"></div>
     <div class="toast" id="toast"><span class="tick">&#10003;</span><span id="toast-text"></span></div>
     <p class="hint" id="hint">拖一個面 ＝ 轉那層 &middot; 拖空白處 ＝ 轉視角</p>
+    <div class="hud">
+      <div class="hud-pill" id="visit-pill" title="總瀏覽次數" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+        <b id="visit-count">0</b>
+      </div>
+      <button class="hud-btn" id="btn-board" type="button" title="排行榜" aria-label="排行榜">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3"/><path d="M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+        <span>排行榜</span>
+      </button>
+    </div>
   </div>
 
   <section class="tutorial" id="tutorial" aria-label="解法教學">
@@ -711,6 +928,7 @@ body.no-canvas .stage { display: none; }
       <div class="tut-tabs">
         <button class="tut-tab on" id="tab-learn" type="button">教學</button>
         <button class="tut-tab" id="tab-solve" type="button">跟著解</button>
+        <button class="tut-tab" id="tab-board" type="button">排行榜</button>
       </div>
       <div class="tut-dots" id="tut-dots"></div>
       <button class="tut-icon" id="tut-revert" type="button" title="回復示範前的盤面" aria-label="回復示範前的盤面" disabled>&#8630;</button>
@@ -725,6 +943,10 @@ body.no-canvas .stage { display: none; }
     <div class="tut-foot two" id="tut-foot-solve" hidden>
       <button class="btn accent" id="tut-do" type="button">&#9654; 做這一步</button>
       <button class="btn" id="tut-all" type="button">一次解完</button>
+    </div>
+    <div class="tut-foot two" id="tut-foot-board" hidden>
+      <span class="tut-count" id="board-note">本機紀錄 &middot; 0 筆</span>
+      <button class="btn" id="tut-clear" type="button">清除紀錄</button>
     </div>
   </section>
 
@@ -907,6 +1129,9 @@ const btnScramble = document.getElementById("btn-scramble");
 const btnUndo = document.getElementById("btn-undo");
 const btnSolve = document.getElementById("btn-solve");
 const btnReset = document.getElementById("btn-reset");
+const visitPill = document.getElementById("visit-pill");
+const visitCountEl = document.getElementById("visit-count");
+const btnBoard = document.getElementById("btn-board");
 
 const ctx = canvas.getContext("2d");
 if (!ctx) {
@@ -924,6 +1149,7 @@ const ANALYTICS_EVENTS = {
   scramble: "打亂",
   tutorial: "開啟教學",
   "solve-tab": "跟著解",
+  board: "開啟排行榜",
   solved: "完成復原",
 };
 
@@ -962,6 +1188,34 @@ function loadAnalytics() {
 }
 
 loadAnalytics();
+
+/* ---------- visitor counter (GoatCounter public count) ---------- */
+
+async function loadVisitCount() {
+  if (!ANALYTICS_ENDPOINT || !visitPill) return;
+
+  // "…/count" -> "…/counter/TOTAL.json"
+  const url = ANALYTICS_ENDPOINT.replace(/\/count\/?$/, "/counter/TOTAL.json");
+  if (url === ANALYTICS_ENDPOINT) return;
+
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 6000);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal, cache: "no-store" });
+    if (!res.ok) return;
+    const data = await res.json();
+    const count = String((data && data.count) || "").trim();
+    if (!count) return;
+    visitCountEl.textContent = count;
+    visitPill.hidden = false;
+  } catch (_) {
+    // counter disabled in GoatCounter, offline, or blocked: keep it hidden
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+loadVisitCount();
 
 /* ---------- camera ---------- */
 
@@ -1259,6 +1513,7 @@ function postTurn() {
 /* ---------- timer ---------- */
 
 let timerRunning = false;
+let autoHelped = false;
 let timerT0 = 0;
 let timerFrozen = 0;
 let lastTimeText = "";
@@ -1277,6 +1532,7 @@ function stopTimer() {
 
 function resetTimer() {
   timerRunning = false;
+  autoHelped = false;
   timerFrozen = 0;
   lastTimeText = "";
   userMoves = 0;
@@ -1309,7 +1565,9 @@ function celebrate() {
   stopTimer();
   trackEvent("solved");
   const time = formatTime(timerFrozen);
-  toastText.textContent = `完成！ ${userMoves} 步 · ${time}`;
+  const record = recordScore();
+  const recordText = record.time || record.moves ? " · 新紀錄！" : "";
+  toastText.textContent = `完成！ ${userMoves} 步 · ${time}${recordText}`;
   toastEl.classList.add("on");
   flashEl.classList.remove("on");
   void flashEl.offsetWidth;
@@ -2110,6 +2368,7 @@ function playAlgorithm(text) {
   const moves = parseAlg(text);
   if (!moves.length) return;
 
+  autoHelped = true;
   if (!tutSnap) tutSnap = takeSnapshot();
   tutRevert.disabled = false;
 
@@ -2175,10 +2434,11 @@ function tutGo(n) {
   tutRender();
 }
 
-function tutOpen() {
-  trackEvent("tutorial");
+function tutOpen(mode) {
+  trackEvent(mode === "board" ? "board" : "tutorial");
   stageEl.classList.add("tut-open");
   tutOpenState = true;
+  if (mode) tutMode = mode;
   tutGo(tutStep);
   setTutMode(tutMode);
   orbit.tTheta = 0.42;
@@ -2193,6 +2453,132 @@ function tutClose() {
 }
 
 
+/* ---------- local leaderboard ---------- */
+
+const SCORE_KEY = "rc.scores.v1";
+const SCORE_KEEP = 200;
+const SCORE_TOP = 10;
+
+let boardSort = "time";
+let clearArmed = 0;
+let clearTimer = 0;
+let storageOk = true;
+
+function loadScores() {
+  try {
+    const arr = JSON.parse(localStorage.getItem(SCORE_KEY) || "[]");
+    if (!Array.isArray(arr)) return [];
+    return arr.filter(
+      (s) =>
+        s &&
+        Number.isFinite(s.t) &&
+        Number.isFinite(s.m) &&
+        Number.isFinite(s.at) &&
+        s.t >= 1000 &&
+        s.m >= 1
+    );
+  } catch (_) {
+    storageOk = false;
+    return [];
+  }
+}
+
+let scores = loadScores();
+
+function saveScores() {
+  try {
+    localStorage.setItem(SCORE_KEY, JSON.stringify(scores));
+    storageOk = true;
+  } catch (_) {
+    storageOk = false;
+  }
+}
+
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function scoreDate(at) {
+  const d = new Date(at);
+  return `${pad2(d.getMonth() + 1)}/${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+
+/** store the solve that just finished; true for each new personal best */
+function recordScore() {
+  const t = Math.round(timerFrozen);
+  if (autoHelped || t < 1000 || userMoves < 1) return { time: false, moves: false };
+
+  const entry = { t, m: userMoves, at: Date.now() };
+  const bestT = scores.length ? Math.min(...scores.map((s) => s.t)) : Infinity;
+  const bestM = scores.length ? Math.min(...scores.map((s) => s.m)) : Infinity;
+
+  scores.push(entry);
+  scores.sort((a, b) => b.at - a.at);
+  if (scores.length > SCORE_KEEP) scores.length = SCORE_KEEP;
+
+  saveScores();
+  if (tutOpenState && tutMode === "board") tutRenderBoard();
+  else renderBoardFoot();
+
+  return { time: entry.t < bestT, moves: entry.m < bestM };
+}
+
+function renderBoardFoot() {
+  if (!boardNote) return;
+  boardNote.textContent = `本機紀錄 · ${scores.length} 筆`;
+  tutClear.disabled = scores.length === 0;
+}
+
+function boardRows() {
+  return scores
+    .slice()
+    .sort((a, b) =>
+      boardSort === "time"
+        ? a.t - b.t || a.m - b.m || a.at - b.at
+        : a.m - b.m || a.t - b.t || a.at - b.at
+    )
+    .slice(0, SCORE_TOP);
+}
+
+function tutRenderBoard() {
+  const rows = boardRows();
+  let html =
+    '<div class="board-top">' +
+    '<span class="board-title">本機排行榜</span>' +
+    '<div class="board-sorts">' +
+    `<button type="button" data-board-sort="time" class="${boardSort === "time" ? "on" : ""}">時間</button>` +
+    `<button type="button" data-board-sort="moves" class="${boardSort === "moves" ? "on" : ""}">步數</button>` +
+    "</div></div>" +
+    `<p class="board-sub">只存在這台裝置${
+      storageOk ? ` · 保留最近 ${SCORE_KEEP} 筆` : " · 無法寫入瀏覽器儲存空間"
+    }</p>`;
+
+  if (!rows.length) {
+    html +=
+      '<div class="board-empty"><p>還沒有完成紀錄。</p>' +
+      "<p>打亂方塊、把它復原，成績就會出現在這裡。</p>" +
+      '<button class="btn accent" type="button" data-board-play="1">打亂一局</button></div>';
+  } else {
+    html += '<ol class="board-list">';
+    rows.forEach((s, i) => {
+      const big = boardSort === "time" ? formatTime(s.t) : `${s.m} 步`;
+      const meta = boardSort === "time" ? `${s.m} 步` : formatTime(s.t);
+      html +=
+        '<li class="board-row">' +
+        `<span class="board-rank">${i + 1}</span>` +
+        `<span class="board-main"><b>${big}</b><span>${meta}</span></span>` +
+        `<span class="board-date">${scoreDate(s.at)}</span>` +
+        "</li>";
+    });
+    html += "</ol>";
+  }
+
+  tutBody.innerHTML = html;
+  tutBody.scrollTop = 0;
+  renderBoardFoot();
+}
+
+
 /* ---------- 跟著解（solver UI） ---------- */
 
 const STAGE_NAME = ["底面十字", "第一層角塊", "第二層邊塊", "頂面黃十字", "頂面全黃", "頂角歸位", "頂邊歸位"];
@@ -2200,10 +2586,14 @@ const FACE_OF = [["R", "L"], ["U", "D"], ["F", "B"]];
 
 const tabLearn = document.getElementById("tab-learn");
 const tabSolve = document.getElementById("tab-solve");
+const tabBoard = document.getElementById("tab-board");
 const tutFootLearn = document.getElementById("tut-foot-learn");
 const tutFootSolve = document.getElementById("tut-foot-solve");
+const tutFootBoard = document.getElementById("tut-foot-board");
 const tutDo = document.getElementById("tut-do");
 const tutAll = document.getElementById("tut-all");
+const boardNote = document.getElementById("board-note");
+const tutClear = document.getElementById("tut-clear");
 
 let tutMode = "learn";
 let tutOpenState = false;
@@ -2252,6 +2642,7 @@ function tutRenderSolve() {
 
 function playSolveStep() {
   if (!solveSteps || !solveSteps.length || busy || planRemaining > 0) return;
+  autoHelped = true;
   if (!tutSnap) tutSnap = takeSnapshot();
   tutRevert.disabled = false;
   const step = solveSteps[0];
@@ -2265,6 +2656,7 @@ function playSolveStep() {
 
 function playSolveAll() {
   if (!solveSteps || !solveSteps.length || busy || planRemaining > 0) return;
+  autoHelped = true;
   if (!tutSnap) tutSnap = takeSnapshot();
   tutRevert.disabled = false;
   let total = 0;
@@ -2286,6 +2678,8 @@ function tutRender() {
   if (tutMode === "solve") {
     if (!solveSteps) solveSteps = computeSolution();
     tutRenderSolve();
+  } else if (tutMode === "board") {
+    tutRenderBoard();
   } else {
     tutRenderLearn();
   }
@@ -2295,9 +2689,12 @@ function setTutMode(mode) {
   tutMode = mode;
   tabLearn.classList.toggle("on", mode === "learn");
   tabSolve.classList.toggle("on", mode === "solve");
+  tabBoard.classList.toggle("on", mode === "board");
   tutDots.style.display = mode === "learn" ? "" : "none";
   tutFootLearn.hidden = mode !== "learn";
   tutFootSolve.hidden = mode !== "solve";
+  tutFootBoard.hidden = mode !== "board";
+  tutRevert.hidden = mode === "board";
   if (mode === "solve" && !solveSteps) solveSteps = computeSolution();
   tutRender();
 }
@@ -2313,7 +2710,8 @@ function onPlanMove() {
   return true;
 }
 
-btnTutorial.addEventListener("click", tutOpen);
+btnTutorial.addEventListener("click", () => tutOpen("learn"));
+btnBoard.addEventListener("click", () => tutOpen("board"));
 document.getElementById("tut-close").addEventListener("click", tutClose);
 tutPrev.addEventListener("click", () => tutGo(tutStep - 1));
 tutNext.addEventListener("click", () => {
@@ -2331,6 +2729,17 @@ tutBody.addEventListener("click", (e) => {
     playAlgorithm(algBtn.getAttribute("data-alg"));
     return;
   }
+  const sortBtn = e.target.closest("[data-board-sort]");
+  if (sortBtn) {
+    boardSort = sortBtn.getAttribute("data-board-sort") === "moves" ? "moves" : "time";
+    tutRenderBoard();
+    return;
+  }
+  if (e.target.closest("[data-board-play]")) {
+    tutClose();
+    scramble();
+    return;
+  }
   if (e.target.closest("[data-do-step]")) playSolveStep();
 });
 
@@ -2339,8 +2748,35 @@ tabSolve.addEventListener("click", () => {
   trackEvent("solve-tab");
   setTutMode("solve");
 });
+tabBoard.addEventListener("click", () => {
+  trackEvent("board");
+  setTutMode("board");
+});
 tutDo.addEventListener("click", playSolveStep);
 tutAll.addEventListener("click", playSolveAll);
+
+tutClear.addEventListener("click", () => {
+  if (!scores.length) return;
+
+  const now = Date.now();
+  if (now - clearArmed > 2500) {
+    clearArmed = now;
+    tutClear.textContent = "再按一次確認";
+    clearTimeout(clearTimer);
+    clearTimer = setTimeout(() => {
+      clearArmed = 0;
+      tutClear.textContent = "清除紀錄";
+    }, 2500);
+    return;
+  }
+
+  clearTimeout(clearTimer);
+  clearArmed = 0;
+  tutClear.textContent = "清除紀錄";
+  scores = [];
+  saveScores();
+  tutRenderBoard();
+});
 
 
 /* ============================================================
