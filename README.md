@@ -69,15 +69,11 @@ xdg-open index.html   # macOS 可用 open index.html
 
 這個 repo 已經部署在 <https://stansu.github.io/rc/>。
 
-## 流量統計（選用）
+## 流量統計
 
-原始碼已接好 [GoatCounter](https://www.goatcounter.com/)：無 cookie、不蒐集個資，只用來知道有多少人開過頁面、多少人真的開始玩。
+使用 [GoatCounter](https://www.goatcounter.com/)：無 cookie、不蒐集個資，只用來知道有多少人開過頁面、多少人真的開始玩。Dashboard 在 <https://stansu-rc.goatcounter.com/>。
 
-目前 `index.html` 裡的 `ANALYTICS_ENDPOINT` 是空字串，**預設不啟用，也不會發出任何第三方請求**。要啟用：
-
-1. 到 [goatcounter.com](https://www.goatcounter.com/) 註冊，建立一個 site（例如 `stansu-rc`）。
-2. 把 `index.html` 裡的 `ANALYTICS_ENDPOINT` 改成 `"https://stansu-rc.goatcounter.com/count"`。
-3. 推上 GitHub，之後到 `https://stansu-rc.goatcounter.com/` 看 dashboard。
+`index.html` 裡的 `ANALYTICS_ENDPOINT` 指向 `https://stansu-rc.goatcounter.com/count`。若不想統計，把它改成空字串 `""` 即可；此時不會載入任何外部程式，也不會發出任何請求。
 
 會記錄的遊玩事件（同一次瀏覽只算一次 `played`）：
 
