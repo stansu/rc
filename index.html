@@ -2126,6 +2126,9 @@ function draw() {
     for (let fi = 0; fi < 6; fi++) {
       const f = FACES[fi];
       const nw = matVec(E, f.n);
+      // light the face with its camera-space normal, so a face keeps the same
+      // shading no matter how the cube (or the view) is turned
+      const nv = [dot3(nw, basisX), dot3(nw, basisY), dot3(nw, basisZ)];
 
       // face centre, for culling and depth sorting
       const cx3 = ep[0] + (E[0][0] * f.n[0] + E[0][1] * f.n[1] + E[0][2] * f.n[2]) * HALF;
@@ -2162,7 +2165,7 @@ function draw() {
         pts.push([tmp[0], tmp[1]]);
       }
 
-      const bodyCol = shadeRgb(BODY_RGB, nw, 1);
+      const bodyCol = shadeRgb(BODY_RGB, nv, 1);
       items.push({ depth, kind: 0, pts, fill: rgbStr(bodyCol), stroke: rgbStr(bodyCol) });
 
       // sticker sitting on this face (local face mask, rotation independent)
@@ -2180,7 +2183,7 @@ function draw() {
         spts.push([tmp[0], tmp[1]]);
       }
 
-      const col = shadeRgb(f.rgb, nw, 1);
+      const col = shadeRgb(f.rgb, nv, 1);
       items.push({
         depth: depth - 0.002,
         kind: 1,
